@@ -16,6 +16,7 @@ default: &default
   username: 00804973
   password: b8f6cbeec18a66
   socket: /tmp/mysql.sock
+  host: us-cdbr-east-05.cleardb.net
 
 development:
   <<: *default
