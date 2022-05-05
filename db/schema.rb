@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_05_155404) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_05_172705) do
   create_table "applicants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_05_155404) do
     t.boolean "passed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "feedback"
     t.index ["jobs_applicant_id"], name: "index_jobs_applicants_pipelines_on_jobs_applicant_id"
     t.index ["pipeline_id"], name: "index_jobs_applicants_pipelines_on_pipeline_id"
   end

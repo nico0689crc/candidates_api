@@ -1,4 +1,5 @@
 class JobsApplicantsPipeline < ApplicationRecord
-  belongs_to :jobs_applicant
-  belongs_to :pipeline
+  #--------------------------------------------- RELATIONSHIPS
+      belongs_to :jobs_applicant
+      belongs_to :pipeline
 end
