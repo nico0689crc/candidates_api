@@ -26,8 +26,10 @@ class JobsApplicantsPipelinesController < ApplicationController
 
   # PATCH/PUT /jobs_applicants_pipelines/1
   def update
-    if @jobs_applicants_pipeline.update(jobs_applicants_pipeline_params)
-      render json: @jobs_applicants_pipeline
+    @jobs_applicants_pipelines_to_update = JobsApplicantsPipeline.where(jobs_applicant_id: @jobs_applicants_pipeline.jobs_applicant_id, passed: false).take
+  
+    if @jobs_applicants_pipelines_to_update.update(passed: true, feedback: params[:feedback])
+      render json: @jobs_applicants_pipelines_to_update
     else
       render json: @jobs_applicants_pipeline.errors, status: :unprocessable_entity
     end

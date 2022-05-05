@@ -15,9 +15,22 @@ class JobsApplicantsController < ApplicationController
 
   # POST /jobs_applicants
   def create
-    @jobs_applicant = JobsApplicant.new(jobs_applicant_params)
+    @jobs_applicant = JobsApplicant.new({
+      job_id: params[:job_id], 
+      applicant_id: params[:applicant_id],
+      url_token: SecureRandom.hex(10)
+    })
 
     if @jobs_applicant.save
+      @job = Job.find(params[:job_id])
+
+      @job.pipelines.map do |pipeline|
+        JobsApplicantsPipeline.create({
+          jobs_applicant_id: @jobs_applicant.id,
+          pipeline_id: pipeline.id 
+        })
+      end
+
       render json: @jobs_applicant, status: :created, location: @jobs_applicant
     else
       render json: @jobs_applicant.errors, status: :unprocessable_entity
