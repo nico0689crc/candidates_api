@@ -1,0 +1,9 @@
+rails g controller pages home about
+
+rails routes
+
+rails g scaffold post title body:text
+
+rails g scaffold Pipeline title description:text order:integer job:references attendant:references
+
+rails db:migrate

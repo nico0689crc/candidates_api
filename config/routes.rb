@@ -1,0 +1,12 @@
+Rails.application.routes.draw do
+  resources :jobs_applicants_pipelines
+  resources :pipelines
+  resources :attendants
+  resources :jobs_applicants
+  resources :applicants
+  resources :jobs
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Defines the root path route ("/")
+  # root "articles#index"
+end
