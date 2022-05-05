@@ -27,10 +27,12 @@ Applicant.create([{
 
 JobsApplicant.create([{
     job_id: 1,
-    applicant_id: 1
+    applicant_id: 1,
+    url_token: "fSC4UBw2CioN7iPykT4z6Q4XmoYkH0BYPm4DSWSkW"
 },{
     job_id: 2,
-    applicant_id: 2
+    applicant_id: 2,
+    url_token: "WOwujTStcNLXhtBDsXoABxZYUu96ZgTORHhUT8EVRee7U"
 }])
 
 Attendant.create([{
