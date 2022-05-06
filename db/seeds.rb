@@ -15,26 +15,6 @@ Job.create([{
     description: "Nostrud aute enim id ex magna cupidatat aliquip in. Nulla nisi excepteur consectetur eu est. Non laborum excepteur ex ipsum. Labore occaecat reprehenderit minim aute Lorem."
 }])
 
-Applicant.create([{
-    first_name: "Marian",
-    last_name: "Holmes",
-    email: "miwwupi@louranez.fm"
-},{
-    first_name: "Ryan",
-    last_name: "Lawrence",
-    email: "zapugzoh@omocojwu.np"
-}])
-
-JobsApplicant.create([{
-    job_id: 1,
-    applicant_id: 1,
-    url_token: "fSC4UBw2CioN7iPykT4z6Q4XmoYkH0BYPm4DSWSkW"
-},{
-    job_id: 2,
-    applicant_id: 2,
-    url_token: "WOwujTStcNLXhtBDsXoABxZYUu96ZgTORHhUT8EVRee7U"
-}])
-
 Attendant.create([{
     first_name: "Logan",
     last_name: "Griffith",
@@ -80,6 +60,26 @@ Pipeline.create([{
     job_id: 2,
     attendant_id: 2
 },])
+
+Applicant.create([{
+    first_name: "Marian",
+    last_name: "Holmes",
+    email: "miwwupi@louranez.fm"
+},{
+    first_name: "Ryan",
+    last_name: "Lawrence",
+    email: "zapugzoh@omocojwu.np"
+}])
+
+JobsApplicant.create([{
+    job_id: 1,
+    applicant_id: 1,
+    url_token: "fSC4UBw2CioN7iPykT4z6Q4XmoYkH0BYPm4DSWSkW"
+},{
+    job_id: 2,
+    applicant_id: 2,
+    url_token: "WOwujTStcNLXhtBDsXoABxZYUu96ZgTORHhUT8EVRee7U"
+}])
 
 JobsApplicantsPipeline.create([{
     jobs_applicant_id: 1,
