@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 DatabaseCleaner.clean_with :truncation
+DatabaseCleaner.allow_production = true
 
 Job.create([{
     title: "Cillum adipisicing proident sunt 1",
