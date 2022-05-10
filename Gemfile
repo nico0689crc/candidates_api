@@ -47,4 +47,6 @@ group :development do
 end
 
 gem "database_cleaner"
-
+gem 'active_model_serializers'
+gem 'sort_n_params', git: 'https://github.com/mauro-labattaglia/sort_n_params.git'
+gem 'will_paginate'
