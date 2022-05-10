@@ -3,16 +3,9 @@ module Api
     class PipelinesController < ApiController
       before_action :set_pipeline, only: %i[ show update destroy ]
 
-      # GET /pipelines
-      def index
-        @pipelines = Pipeline.all
-
-        render json: @pipelines
-      end
-
       # GET /pipelines/1
       def show
-        render json: @pipeline
+        json_response(data: PipelineSerializer.new(@pipeline))
       end
 
       # POST /pipelines

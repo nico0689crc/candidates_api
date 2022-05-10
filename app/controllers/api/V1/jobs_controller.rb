@@ -5,40 +5,13 @@ module Api
 
       # GET /jobs
       def index
-        @jobs = Job.all
-
-        render json: @jobs, :include => [ 
-          :jobs_applicants => { 
-            :include => [ 
-              :applicant, 
-              :jobs_applicants_pipelines => { 
-                :include => [ 
-                  :pipeline => { 
-                    :include => [ :attendant ] 
-                  } 
-                ] 
-              }
-            ], 
-          }
-        ]
+        @presenter = JobsPresenter.new(params)
+        json_response(data: ActiveModel::Serializer::CollectionSerializer.new( @presenter.jobs, serializer: JobSerializer))
       end
 
       # GET /jobs/1
       def show
-        render json: @job, :include => [ 
-          :jobs_applicants => { 
-            :include => [ 
-              :applicant, 
-              :jobs_applicants_pipelines => { 
-                :include => [ 
-                  :pipeline => { 
-                    :include => [ :attendant ] 
-                  } 
-                ] 
-              }
-            ], 
-          }
-        ]
+        json_response(data: JobSerializer.new(@job))
       end
 
       # POST /jobs

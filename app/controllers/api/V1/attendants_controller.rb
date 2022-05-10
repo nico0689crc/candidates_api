@@ -5,14 +5,13 @@ module Api
 
       # GET /attendants
       def index
-        @attendants = Attendant.all
-
-        render json: @attendants
+        @presenter = AttendantsPresenter.new(params)
+        json_response(data: ActiveModel::Serializer::CollectionSerializer.new( @presenter.attendants, serializer: AttendantSerializer))
       end
 
       # GET /attendants/1
       def show
-        render json: @attendant
+        json_response(data: AttendantSerializer.new(@attendant))
       end
 
       # POST /attendants

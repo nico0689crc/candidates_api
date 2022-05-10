@@ -5,14 +5,13 @@ module Api
 
       # GET /applicants
       def index
-        @applicants = Applicant.all
-
-        render json: @applicants
+        @presenter = ApplicantsPresenter.new(params)
+        json_response(data: ActiveModel::Serializer::CollectionSerializer.new( @presenter.applicants, serializer: ApplicantSerializer))
       end
 
       # GET /applicants/1
       def show
-        render json: @applicant, :include => :jobs
+        json_response(data: ApplicantSerializer.new(@applicant))
       end
 
       # POST /applicants

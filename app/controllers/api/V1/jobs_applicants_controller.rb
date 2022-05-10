@@ -3,16 +3,9 @@ module Api
     class JobsApplicantsController < ApiController
       before_action :set_jobs_applicant, only: %i[ show update destroy ]
 
-      # GET /jobs_applicants
-      def index
-        @jobs_applicants = JobsApplicant.all
-
-        render json: @jobs_applicants
-      end
-
       # GET /jobs_applicants/1
       def show
-        render json: @jobs_applicant
+        json_response(data: JobsApplicantSerializer.new(@jobs_applicant))
       end
 
       # POST /jobs_applicants

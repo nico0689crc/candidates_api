@@ -1,30 +1,7 @@
 module Api
   module V1      
     class JobsApplicantsPipelinesController < ApiController
-      before_action :set_jobs_applicants_pipeline, only: %i[ show update destroy ]
-
-      # GET /jobs_applicants_pipelines
-      def index
-        @jobs_applicants_pipelines = JobsApplicantsPipeline.all
-
-        render json: @jobs_applicants_pipelines
-      end
-
-      # GET /jobs_applicants_pipelines/1
-      def show
-        render json: @jobs_applicants_pipeline
-      end
-
-      # POST /jobs_applicants_pipelines
-      def create
-        @jobs_applicants_pipeline = JobsApplicantsPipeline.new(jobs_applicants_pipeline_params)
-
-        if @jobs_applicants_pipeline.save
-          render json: @jobs_applicants_pipeline, status: :created
-        else
-          render json: @jobs_applicants_pipeline.errors, status: :unprocessable_entity
-        end
-      end
+      before_action :set_jobs_applicants_pipeline, only: %i[ update destroy ]
 
       # PATCH/PUT /jobs_applicants_pipelines/1
       def update

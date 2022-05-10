@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :jobs_applicants_pipelines, only: [:index, :show, :create, :update, :destroy]
-      resources :pipelines, only: [:index, :show, :create, :update, :destroy]
+      resources :jobs_applicants_pipelines, only: [:update, :destroy]
+      resources :pipelines, only: [ :show, :create, :update, :destroy]
       resources :attendants, only: [:index, :show, :create, :update, :destroy]
-      resources :jobs_applicants, only: [:index, :show, :create, :update, :destroy]
+      resources :jobs_applicants, only: [:show, :create, :update, :destroy]
       resources :applicants, only: [:index, :show, :create, :update, :destroy]
       resources :jobs, only: [:index, :show, :create, :update, :destroy]
     end
