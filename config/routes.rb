@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
-  resources :jobs_applicants_pipelines
-  resources :pipelines
-  resources :attendants
-  resources :jobs_applicants
-  resources :applicants
-  resources :jobs
+  
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resources :jobs_applicants_pipelines, only: [:index, :show, :create, :update, :destroy]
+      resources :pipelines, only: [:index, :show, :create, :update, :destroy]
+      resources :attendants, only: [:index, :show, :create, :update, :destroy]
+      resources :jobs_applicants, only: [:index, :show, :create, :update, :destroy]
+      resources :applicants, only: [:index, :show, :create, :update, :destroy]
+      resources :jobs, only: [:index, :show, :create, :update, :destroy]
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
