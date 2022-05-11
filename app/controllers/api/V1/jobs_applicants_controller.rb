@@ -1,7 +1,7 @@
 module Api
   module V1      
     class JobsApplicantsController < ApiController
-      before_action :set_jobs_applicant, only: %i[ show update destroy ]
+      before_action :set_jobs_applicant, only: %i[ show destroy ]
 
       # GET /jobs_applicants/1
       def show
@@ -10,51 +10,30 @@ module Api
 
       # POST /jobs_applicants
       def create
-        @jobs_applicant = JobsApplicant.new({
-          job_id: params[:job_id], 
-          applicant_id: params[:applicant_id],
-          url_token: SecureRandom.hex(10)
-        })
-
-        if @jobs_applicant.save
-          @job = Job.find(params[:job_id])
-
-          @job.pipelines.map do |pipeline|
-            JobsApplicantsPipeline.create({
-              jobs_applicant_id: @jobs_applicant.id,
-              pipeline_id: pipeline.id 
-            })
-          end
-
-          render json: @jobs_applicant, status: :created
+        jobs_applicant_manager = JobsApplicantManager.new(params: params)
+        
+        if jobs_applicant_manager.create
+          json_response(message: I18n.t(:success, scope: %i[messages create]), data: JobsApplicantSerializer.new(jobs_applicant_manager.object), status: :created)
         else
-          render json: @jobs_applicant.errors, status: :unprocessable_entity
-        end
-      end
-
-      # PATCH/PUT /jobs_applicants/1
-      def update
-        if @jobs_applicant.update(jobs_applicant_params)
-          render json: @jobs_applicant
-        else
-          render json: @jobs_applicant.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages create]), data: jobs_applicant_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # DELETE /jobs_applicants/1
       def destroy
-        @jobs_applicant.destroy
+        jobs_applicant_manager = JobsApplicantManager.new(object: @jobs_applicant)
+        
+        if jobs_applicant_manager.destroy
+          json_response(message: I18n.t(:success, scope: %i[messages destroy]), status: :no_content)
+        else
+          json_response(message: I18n.t(:error, scope: %i[messages destroy]), data: jobs_applicant_manager.object.errors, status: :unprocessable_entity)
+        end
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_jobs_applicant
           @jobs_applicant = JobsApplicant.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def jobs_applicant_params
-          params.fetch(:jobs_applicant, {})
         end
     end
   end

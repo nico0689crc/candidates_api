@@ -16,38 +16,41 @@ module Api
 
       # POST /attendants
       def create
-        @attendant = Attendant.new(attendant_params)
-
-        if @attendant.save
-          render json: @attendant, status: :created
+        attendant_manager = AttendantManager.new(params: params)
+        
+        if attendant_manager.create
+          json_response(message: I18n.t(:success, scope: %i[messages create]), data: AttendantSerializer.new(attendant_manager.object), status: :created)
         else
-          render json: @attendant.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages create]), data: attendant_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # PATCH/PUT /attendants/1
       def update
-        if @attendant.update(attendant_params)
-          render json: @attendant
+        attendant_manager = AttendantManager.new(params: params, object: @attendant)
+        
+        if attendant_manager.update
+          json_response(message: I18n.t(:success, scope: %i[messages update]), status: :no_content)
         else
-          render json: @attendant.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages update]), data: attendant_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # DELETE /attendants/1
       def destroy
-        @attendant.destroy
+        attendant_manager = JobManager.new(object: @attendant)
+        
+        if attendant_manager.destroy
+          json_response(message: I18n.t(:success, scope: %i[messages destroy]), status: :no_content)
+        else
+          json_response(message: I18n.t(:error, scope: %i[messages destroy]), data: attendant_manager.object.errors, status: :unprocessable_entity)
+        end
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_attendant
           @attendant = Attendant.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def attendant_params
-          params.require(:attendant).permit(:first_name, :last_name, :contact_email, :company_name, :contact_whatsapp, :contact_linked_in)
         end
     end
   end

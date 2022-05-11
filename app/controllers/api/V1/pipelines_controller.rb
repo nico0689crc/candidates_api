@@ -10,38 +10,41 @@ module Api
 
       # POST /pipelines
       def create
-        @pipeline = Pipeline.new(pipeline_params)
-
-        if @pipeline.save
-          render json: @pipeline, status: :created
+        pipeline_manager = PipelineManager.new(params: params)
+        
+        if pipeline_manager.create
+          json_response(message: I18n.t(:success, scope: %i[messages create]), data: PipelineSerializer.new(pipeline_manager.object), status: :created)
         else
-          render json: @pipeline.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages create]), data: pipeline_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # PATCH/PUT /pipelines/1
       def update
-        if @pipeline.update(pipeline_params)
-          render json: @pipeline
+        pipeline_manager = PipelineManager.new(params: params, object: @pipeline)
+        
+        if pipeline_manager.update
+          json_response(message: I18n.t(:success, scope: %i[messages update]), status: :no_content)
         else
-          render json: @pipeline.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages update]), data: pipeline_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # DELETE /pipelines/1
       def destroy
-        @pipeline.destroy
+        pipeline_manager = PipelineManager.new(object: @pipeline)
+        
+        if pipeline_manager.destroy
+          json_response(message: I18n.t(:success, scope: %i[messages destroy]), status: :no_content)
+        else
+          json_response(message: I18n.t(:error, scope: %i[messages destroy]), data: pipeline_manager.object.errors, status: :unprocessable_entity)
+        end
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_pipeline
           @pipeline = Pipeline.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def pipeline_params
-          params.require(:pipeline).permit(:title, :description, :order, :job_id, :attendant_id)
         end
     end
   end

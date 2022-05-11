@@ -16,38 +16,41 @@ module Api
 
       # POST /applicants
       def create
-        @applicant = Applicant.new(applicant_params)
-
-        if @applicant.save
-          render json: @applicant, status: :created
+        applicant_manager = ApplicantManager.new(params: params)
+        
+        if applicant_manager.create
+          json_response(message: I18n.t(:success, scope: %i[messages create]), data: ApplicantSerializer.new(applicant_manager.object), status: :created)
         else
-          render json: @applicant.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages create]), data: applicant_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # PATCH/PUT /applicants/1
       def update
-        if @applicant.update(applicant_params)
-          render json: @applicant
+        applicant_manager = ApplicantManager.new(params: params, object: @applicant)
+        
+        if applicant_manager.update
+          json_response(message: I18n.t(:success, scope: %i[messages update]), status: :no_content)
         else
-          render json: @applicant.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages update]), data: applicant_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # DELETE /applicants/1
       def destroy
-        @applicant.destroy
+        applicant_manager = JobManager.new(object: @applicant)
+        
+        if applicant_manager.destroy
+          json_response(message: I18n.t(:success, scope: %i[messages destroy]), status: :no_content)
+        else
+          json_response(message: I18n.t(:error, scope: %i[messages destroy]), data: applicant_manager.object.errors, status: :unprocessable_entity)
+        end
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_applicant
           @applicant = Applicant.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def applicant_params
-          params.require(:applicant).permit(:first_name, :last_name, :email)
         end
     end
   end

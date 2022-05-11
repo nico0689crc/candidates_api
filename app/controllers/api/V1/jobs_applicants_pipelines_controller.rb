@@ -1,33 +1,23 @@
 module Api
   module V1      
     class JobsApplicantsPipelinesController < ApiController
-      before_action :set_jobs_applicants_pipeline, only: %i[ update destroy ]
+      before_action :set_jobs_applicants_pipeline, only: %i[ update ]
 
       # PATCH/PUT /jobs_applicants_pipelines/1
       def update
-        @jobs_applicants_pipelines_to_update = JobsApplicantsPipeline.where(jobs_applicant_id: @jobs_applicants_pipeline.jobs_applicant_id, passed: false).take
-      
-        if @jobs_applicants_pipelines_to_update.update(passed: true, feedback: params[:feedback])
-          render json: @jobs_applicants_pipelines_to_update
+        jobs_applicants_pipeline_manager = JobsApplicantsPipelineManager.new(params: params, object: @jobs_applicants_pipeline)
+        
+        if jobs_applicants_pipeline_manager.update
+          json_response(message: I18n.t(:success, scope: %i[messages update]), status: :no_content)
         else
-          render json: @jobs_applicants_pipeline.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages update]), data: attendant_manager.object.errors, status: :unprocessable_entity)
         end
-      end
-
-      # DELETE /jobs_applicants_pipelines/1
-      def destroy
-        @jobs_applicants_pipeline.destroy
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_jobs_applicants_pipeline
           @jobs_applicants_pipeline = JobsApplicantsPipeline.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def jobs_applicants_pipeline_params
-          params.require(:jobs_applicants_pipeline).permit(:jobs_applicant_id, :pipeline_id, :passed)
         end
     end
   end

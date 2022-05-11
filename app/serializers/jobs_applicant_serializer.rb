@@ -3,4 +3,8 @@ class JobsApplicantSerializer < ActiveModel::Serializer
 
   has_one :applicant
   has_many :jobs_applicants_pipelines, serializer: JobsApplicantsPipelinesSerializer, key: :pipelines_steps
+
+  class ApplicantSerializer < ActiveModel::Serializer
+    attributes :id, :first_name, :last_name, :email
+  end
 end

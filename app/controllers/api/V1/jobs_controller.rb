@@ -16,38 +16,41 @@ module Api
 
       # POST /jobs
       def create
-        @job = Job.new(job_params)
-
-        if @job.save
-          render json: @job, status: :created
+        job_manager = JobManager.new(params: params)
+        
+        if job_manager.create
+          json_response(message: I18n.t(:success, scope: %i[messages create]), data: JobSerializer.new(job_manager.object), status: :created)
         else
-          render json: @job.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages create]), data: job_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # PATCH/PUT /jobs/1
       def update
-        if @job.update(job_params)
-          render json: @job
+        job_manager = JobManager.new(params: params, object: @job)
+        
+        if job_manager.update
+          json_response(message: I18n.t(:success, scope: %i[messages update]), status: :no_content)
         else
-          render json: @job.errors, status: :unprocessable_entity
+          json_response(message: I18n.t(:error, scope: %i[messages update]), data: job_manager.object.errors, status: :unprocessable_entity)
         end
       end
 
       # DELETE /jobs/1
       def destroy
-        @job.destroy
+        job_manager = JobManager.new(object: @job)
+        
+        if job_manager.destroy
+          json_response(message: I18n.t(:success, scope: %i[messages destroy]), status: :no_content)
+        else
+          json_response(message: I18n.t(:error, scope: %i[messages destroy]), data: job_manager.object.errors, status: :unprocessable_entity)
+        end
       end
 
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_job
           @job = Job.find(params[:id])
-        end
-
-        # Only allow a list of trusted parameters through.
-        def job_params
-          params.require(:job).permit(:title, :description, :active)
         end
     end
   end
