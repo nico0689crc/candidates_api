@@ -7,7 +7,7 @@ module ApiExceptionHandler
     end
 
     def authenticate_user!(options = {})
-      json_response(message: I18n.t('devise.failure.unauthenticated'), status: :unauthorized) unless signed_in?
+      json_response(message: I18n.t('devise.failure.unauthenticated'), status: :unauthorized) unless user_signed_in?
     end
   end
 end
