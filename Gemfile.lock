@@ -212,6 +212,7 @@ DEPENDENCIES
   bootsnap
   database_cleaner
   debug
+  devise
   devise_token_auth (>= 1.2.0)!
   mysql2 (~> 0.5)
   puma (~> 5.0)
