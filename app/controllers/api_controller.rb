@@ -1,6 +1,8 @@
 class ApiController < ActionController::API
   # include TokenUserPermission
-  include ApiExceptionHandler
+  # include ApiExceptionHandler
+  include DeviseTokenAuth::Concerns::SetUserByToken
+  include RackSessionFix
   include ApiResponse
-  # before_action :authorize_user!
+  before_action :authenticate_user!
 end
